@@ -3,9 +3,9 @@ import './index.css'
 
 function Book (props) {
 
+
   return (
     <ol className="books-grid">
-
     {props.books.map((book) => (
       <li key={book.id}>
         <div className="book">
@@ -26,7 +26,7 @@ function Book (props) {
               </div>
             <div className="book-title">{book.title}
             </div>
-          <div className="book-authors">{book.authors}
+          <div className="book-authors">{book.authors.join(', ')}
           </div>
         </div>
       </li>
