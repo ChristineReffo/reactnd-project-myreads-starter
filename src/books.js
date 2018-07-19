@@ -1,7 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import './index.css'
 
 function Book (props) {
+
 
 
   return (
@@ -15,12 +17,13 @@ function Book (props) {
                    backgroundImage: `url(${book.imageLinks.smallThumbnail})`
             }}/>
               <div className="book-shelf-changer">
-                <select>
-                  <option value="move" disabled>Move to...</option>
-                  <option value="currentlyReading">Currently Reading</option>
-                  <option value="wantToRead">Want to Read</option>
-                  <option value="read">Read</option>
-                  <option value="none">None</option>
+                <select
+                  onClick={(event) => props.updateBooks(book, event.target.value)}>
+                    <option value="move" disabled>Move to...</option>
+                    <option value="currentlyReading" disabled={book.shelf === 'currentlyReading'}>Currently Reading</option>
+                    <option value="wantToRead" disabled={book.shelf === 'wantToRead'}>Want to Read</option>
+                    <option value="read" disabled={book.shelf === 'read'}>Read</option>
+                    <option value="none" disabled={book.shelf === 'none'}>None</option>
                   </select>
               </div>
               </div>
@@ -36,5 +39,9 @@ function Book (props) {
   )
   }
 
+Book.propTypes = {
+  books: PropTypes.array.isRequired,
+  updateBooks: PropTypes.func.isRequired
+}
 
 export default Book

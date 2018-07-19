@@ -1,15 +1,9 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
-import Book from './books.js'
-import BookShelf from './Shelf.js'
-import Header from './header.js'
+import { Route } from 'react-router-dom'
+import SearchQuery from './searchQuery.js'
+import MainPage from './mainPage.js'
 import './App.css'
-
-
-
-
-
-// BooksAPI.update(book, shelf).then(() =>      console.log(`Moved "${book.title}" to "${shelf}" ID shelf`))
 
 
 
@@ -17,51 +11,59 @@ import './App.css'
 class BooksApp extends React.Component {
 
   state = {
-     books: []
+     books: [],
+     query: '',
+
    }
 
   componentDidMount() {
-      BooksAPI.getAll().then((books) => {
-            this.setState({ books: books })
-            console.log(this.state)
-          })
-      }
+    this.fetchBooks();
+  }
 
-  /*  changeShelf = (book, shelf ) => {
-     BooksAPI.update(book, shelf).then(response => {
-       this.getBooksOnShelf();
-     });
-   }; */
+// API call to retrieve books from backend server and update the book array in the state
+  fetchBooks() {
+    BooksAPI.getAll().then((books) => {
+        this.setState({ books })
+        console.log(this.state)
+    })
+  }
+
+  // Function that enables dropdown menu to change the shelf books are placed in
+
+  updateBooks = (book, shelf) => {
+     BooksAPI.update(book, shelf).then(() => {
+       console.log(`"${book.title}" now on shelf " ${shelf}"`);
+       this.fetchBooks();
+     }).catch(error => console.log(error));
+   };
 
 
 
 
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: false
+
+  // updateQuery = (query) => {
+  //   this.setState({ query: query.trim()
+  //   })
+  //   .then(this.updateQuery.bind(this))
+  // }
+
 
   render() {
     return (
       <div className="app">
-      <Header/>
-        <BookShelf
-          shelf = 'Currently reading'/>
-          <Book
-            books={this.state.books.filter((book)=>book.shelf==='currentlyReading')}/>
-        <BookShelf shelf = 'Want to read'/>
-          <Book
-            books={this.state.books.filter((book)=>book.shelf==='wantToRead')}/>
-        <BookShelf shelf = 'Read'/>
-          <Book
-            books={this.state.books.filter((book)=>book.shelf==='read')}/>
-        </div>
+          <Route exact path="/" render={() =>
+            <MainPage
+              books={this.state.books}
+              updateBooks={this.updateBooks}
+              />
+            }/>
+          <Route path="/search" render={() =>
+            <SearchQuery
+              books={this.state.books}
+            />
+          }/>
+      </div>
     )
   }
 }
-
-
 export default BooksApp
