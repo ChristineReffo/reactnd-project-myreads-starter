@@ -11,11 +11,11 @@ import './App.css'
 class BooksApp extends React.Component {
 
   state = {
-     books: [],
-     query: '',
+     books: []
 
    }
 
+// API requests are to be used with componentDidMount
   componentDidMount() {
     this.fetchBooks();
   }
@@ -29,23 +29,12 @@ class BooksApp extends React.Component {
   }
 
   // Function that enables dropdown menu to change the shelf books are placed in
-
   updateBooks = (book, shelf) => {
      BooksAPI.update(book, shelf).then(() => {
        console.log(`"${book.title}" now on shelf " ${shelf}"`);
        this.fetchBooks();
      }).catch(error => console.log(error));
    };
-
-
-
-
-
-  // updateQuery = (query) => {
-  //   this.setState({ query: query.trim()
-  //   })
-  //   .then(this.updateQuery.bind(this))
-  // }
 
 
   render() {
@@ -55,13 +44,16 @@ class BooksApp extends React.Component {
             <MainPage
               books={this.state.books}
               updateBooks={this.updateBooks}
-              />
-            }/>
+            />
+          }/>
           <Route path="/search" render={() =>
-            <SearchQuery/>
+            <SearchQuery
+              books={this.state.books}
+            />
           }/>
       </div>
     )
   }
 }
+
 export default BooksApp

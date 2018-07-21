@@ -9,6 +9,7 @@ class MainPage extends React.Component {
 
   render() {
 
+    const { books } = this.props
 
     return(
 
@@ -16,17 +17,17 @@ class MainPage extends React.Component {
         <Header/>
         <BookShelf shelf = 'Currently reading'/>
             <Book
-              books={this.props.books.filter((book)=>book.shelf==='currentlyReading')}
+              books={books.filter((book)=>book.shelf==='currentlyReading')}
               updateBooks={this.props.updateBooks}
             />
         <BookShelf shelf = 'Want to read'/>
             <Book
-              books={this.props.books.filter((book)=>book.shelf==='wantToRead')}
+              books={books.filter((book)=>book.shelf==='wantToRead')}
               updateBooks={this.props.updateBooks}
             />
         <BookShelf shelf = 'Read'/>
             <Book
-              books={this.props.books.filter((book)=>book.shelf==='read')}
+              books={books.filter((book)=>book.shelf==='read')}
               updateBooks={this.props.updateBooks}
             />
         <Footer/>
