@@ -1,10 +1,12 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
+import * as BooksAPI from './BooksAPI'
 import './index.css'
 
-function Book (props) {
+class Book extends React.Component {
 
-  const { books, updateBooks } = props
+render(){
+  const { books, updateBooks } = this.props
 
   return (
     <ol className="books-grid">
@@ -14,23 +16,24 @@ function Book (props) {
           <div className="book-top">
             <div className='book-cover' style={{
                    width: 128, height: 193,
-                   backgroundImage: `url(${book.imageLinks.smallThumbnail})`
+                   backgroundImage: `url(${book.imageLinks ? book.imageLinks.smallThumbnail : "http://via.placeholder.com/128x193?text=No%20Image"})`
             }}/>
               <div className="book-shelf-changer">
                 <select
                   onChange={(event) => updateBooks(book, event.target.value)}
                   value={book.shelf}>
-                    <option value="move" disabled>Move to...</option>
+                  <optgroup label="Move to:">
                     <option value="currentlyReading" disabled={book.shelf === 'currentlyReading'}>Currently Reading</option>
                     <option value="wantToRead" disabled={book.shelf === 'wantToRead'}>Want to Read</option>
                     <option value="read" disabled={book.shelf === 'read'}>Read</option>
-                    <option value="none" disabled={book.shelf === 'none'}>None</option>
-                  </select>
+                    <option value="none" disabled={book.shelf === 'none' || !book.shelf}>None</option>
+                  </optgroup>
+                </select>
               </div>
               </div>
             <div className="book-title">{book.title}
             </div>
-          <div className="book-authors">{book.authors.join(', ')}
+          <div className="book-authors">{book.authors}
           </div>
         </div>
       </li>
@@ -39,6 +42,7 @@ function Book (props) {
 
   )
   }
+}
 //
 // Book.propTypes = {
 //   books: PropTypes.array.isRequired,

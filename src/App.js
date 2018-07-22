@@ -12,7 +12,6 @@ class BooksApp extends React.Component {
 
   state = {
      books: []
-
    }
 
 // API requests are to be used with componentDidMount
@@ -31,8 +30,14 @@ class BooksApp extends React.Component {
   // Function that enables dropdown menu to change the shelf books are placed in
   updateBooks = (book, shelf) => {
      BooksAPI.update(book, shelf).then(() => {
-       console.log(`"${book.title}" now on shelf " ${shelf}"`);
-       this.fetchBooks();
+       this.fetchBooks()
+       // book.shelf = shelf
+       // console.log(`"${book.title}" now on shelf " ${shelf}"`);
+       // // if(!this.state.books.find((b) => {b.id === book.id})) {
+       // //   console.log(`Adding ${book.title} to state`)
+       //   this.state.books.concat(book)
+       // // }
+       // this.setState({ books: this.state.books })
      }).catch(error => console.log(error));
    };
 
@@ -49,6 +54,7 @@ class BooksApp extends React.Component {
           <Route path="/search" render={() =>
             <SearchQuery
               books={this.state.books}
+              updateBooks={this.updateBooks}
             />
           }/>
       </div>
