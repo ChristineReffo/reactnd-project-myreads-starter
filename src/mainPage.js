@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from './header.js'
-import BookShelf from './Shelf.js'
+import BookShelf from './bookShelf.js'
 import Book from './books.js'
 import Footer from './footer.js'
 
@@ -9,7 +9,7 @@ class MainPage extends React.Component {
 
   render() {
 
-    const { books } = this.props
+    const { books, updateBooks } = this.props
 
     return(
 
@@ -18,22 +18,20 @@ class MainPage extends React.Component {
         <BookShelf shelf = 'Currently reading'/>
             <Book
               books={books.filter((book)=>book.shelf==='currentlyReading')}
-              updateBooks={this.props.updateBooks}
+              updateBooks={updateBooks}
             />
         <BookShelf shelf = 'Want to read'/>
             <Book
               books={books.filter((book)=>book.shelf==='wantToRead')}
-              updateBooks={this.props.updateBooks}
+              updateBooks={updateBooks}
             />
         <BookShelf shelf = 'Read'/>
             <Book
               books={books.filter((book)=>book.shelf==='read')}
-              updateBooks={this.props.updateBooks}
+              updateBooks={updateBooks}
             />
         <Footer/>
-        )}/>
       </div>
-
     )
   }
 }
